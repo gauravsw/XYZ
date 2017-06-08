@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html>
+   <head>
+	  <meta charset="UTF-8" />
+      <link rel="stylesheet" href="css/calendar.css" />
+	  <link rel="stylesheet" href="css/style.css" />
+	  <link rel="stylesheet" href="css/style2.css" />
+	  <script src="js/jquery-2.2.3.min.js"></script>
+	  <script src="js/calendar.js"></script> 
+	  <script src="js/main.js"></script>	  
+	  <style>
+.table-holiday-list>tbody>tr>td:first-child {
+    width: 80px
+}
+@media (max-width: 1130px) {
+    #yearlyCalendarScroll .scroller-nav {
+        padding-left: none;
+        padding-left: 0
+    }
+    #yearlyCalendarScroll .scroller-mask {
+        position: relative;
+        overflow: hidden;
+        margin: auto;
+        width: 290px!important;
+        height: 327px
+    }
+    #yearlyCalendarScroll .yearlyCalBox {
+        float: left;
+        width: 458px;
+        height: 295px;
+        list-style: none
+    }
+}
+@media (min-width: 1130px) {
+    #yearlyCalendarScroll .scroller-mask {
+        position: relative;
+        overflow: hidden;
+        margin: auto;
+        width: 550px!important;
+        height: 370px
+    }
+    #yearlyCalendarScroll .yearlyCalBox {
+        float: left;
+        width: 278px;
+        height: 328px;
+        list-style: none
+    }
+    .scroller-nav {
+        padding-right: 0!important;
+        padding-left: 0!important
+    }
+}
+.holiday_date {
+    color: #ff1744
+}
+.calendar-switcher .btn {
+    text-transform: none
+}
+.calendar-wrapper {
+    border: 15px solid #f5f5f5
+}
+.calendar-nav>a {
+    display: block;
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 50%;
+    background: #fff;
+    color: #26c6da;
+    text-align: center;
+    font-size: 2em;
+    line-height: 1em
+}
+.nav-prev {
+    float: left
+}
+.nav-next {
+    float: right
+}
+.table-calendar {
+    margin-bottom: 0
+}
+.table-calendar>thead>tr>th {
+    background: #f9f9f9
+}
+.table-calendar>tbody>tr>td,
+.table-calendar>thead>tr>th {
+    text-align: center
+}
+.table-calendar>tbody>tr>td {
+    position: relative;
+    padding: 12px;
+    border: 1px solid #f2f2f2;
+    font-weight: 700;
+    cursor: pointer;
+    -webkit-transition: all .3s;
+    transition: all .3s
+}
+.table-calendar>tbody>tr>td:not(.inactive):hover {
+    background: #f9f9f9
+}
+.table-calendar .inactive,
+.table-calendar span {
+    position: absolute;
+    right: 5px;
+    color: #666;
+    font-weight: 400;
+    font-size: .7em
+}
+.calendar-body {
+    position: relative
+}
+.table-calendar .selected {
+    background: #f2f2f2
+}
+.calendar-header {
+    background: #26c6da;
+    color: #fff;
+    padding: 10px;
+    min-height: 50px
+}
+@media (min-width: 1130px) {
+    #tab-calendar-view>#yearlyCalendarScroll .scroller-mask {
+        width: 600px!important
+    }
+    .yearlyCalBox {
+        width: 300px!important
+    }
+}
+.tblCalEventWrapper {
+    margin-right: 5px
+}
+.tblCalEventWrapper td.dis,
+.tblCalEventWrapper td.days {
+    height: 35px
+}
+.tblCal {
+    margin: 0
+}
+.table-muhurat td.time {
+    width: 35%;
+    background-color: #fff
+}
+.scroller-wrapper a {
+    outline: none
+}
+.scroller-mask {
+    height: 370px!important;
+    width: 560px;
+    margin: auto;
+    overflow: hidden;
+    position: relative
+}
+.scroller-list {
+    position: absolute;
+    padding: 0
+}
+.scroller-list a {
+    padding: 3px
+}
+.scroller-nav {
+    height: 30px;
+    line-height: 30px;
+    font-size: 3em;
+    text-align: center;
+    text-decoration: none!important;
+	display:inline-block
+}
+.scroller-nav span {
+    font-family: "Times New Roman", serif
+}
+.scroller-nav-prev {
+	color: #000
+}
+.scroller-disabled,
+.scroller-disabled:hover {
+    color: #ccc;
+    cursor: default
+}
+.form-holiday {
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 2px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05) inset;
+    margin-bottom: 20px;
+    min-height: 20px;
+    padding: 10px
+}
+.table-calendar {
+    font-size: 11px
+}
+.table-calendar {
+    font-size: 11px
+}
+.calendar-popup table {
+    font-size: .8em!important;
+    line-height: 15px
+}
+.date-highlight-green {
+    background-color: #33c133
+}
+.floating-bar-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    text-align: center;
+    width: 100%;
+    background-color: #293448;
+    color: #fff;
+    font-weight: bold;
+    z-index: 100;
+    -webkit-transition: height 0.8s;
+    -moz-transition: height 0.8s;
+    transition: height 0.8s;
+    height: 0;
+}
+.floating-bar-botttom-active {
+    height: 52px;
+    padding: 5px;
+}
+.floating-bar-bottom-close {
+    float: right;
+    border-radius: 50%;
+    border: 1px solid;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    line-height: 24px;
+}
+.btn-jump {
+    -webkit-animation: jump 1.5s ease 0s 5 normal;
+    animation: jump 1.5s ease 0s 5 normal;
+}
+@-webkit-keyframes jump {
+    0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+    20% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+    40% {
+        -webkit-transform: translateY(-30px);
+        transform: translateY(-30px);
+    }
+    50% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+    60% {
+        -webkit-transform: translateY(-15px);
+        transform: translateY(-15px);
+    }
+    80% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+@keyframes jump {
+    0% {
+        transform: translateY(0);
+    }
+    20% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+    80% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+</style>
+      
+   </head>
+   <body class="theme-purple">
+      <div id="wrapper container">
+	  <div id="menu" style="display: none;">
+                <div class="menu-list">
+                    <div class="main-head">
+                        <ul>
+                            <li><a href="main.html"><img src="images/home-icon.png"></a></li>
+                            <li>Today's Panchang</li>
+                            <li class="close-menu"><img src="images/arrow-icon.png"></li>
+                        </ul>
+                    </div>
+                    <div class="head-sub-list">
+                        <ul>
+                            <li class="icon"><img src="images/sun-rise.png"></li>
+                            <li class="sub-list-data">Sunrise: 00:00 AM</li>
+                        </ul>
+                    </div>
+                    <div class="head-sub-list">
+                        <ul>
+                            <li class="icon"><img src="images/sunset-icon.png"></li>
+                            <li class="sub-list-data">Sunset: 00:00 PM</li>
+                        </ul>
+                    </div>
+                    <div class="head-sub-list">
+                        <ul>
+                            <li class="icon"><img src="images/moon-icon1.png"></li>
+                            <li class="sub-list-data">Moon Sign(Rashi): Mesha(Aries)</li>
+                        </ul>
+                    </div>
+                    <div class="head-sub-list">
+                        <ul>
+                            <li class="icon"><img src="images/moon-nakshtra1.png"></li>
+                            <li class="sub-list-data">Moon Nakshtra: Anuradha</li>
+                        </ul>
+                    </div>
+                    <div class="head-sub-list">
+                        <ul>
+                            <li class="icon"><img src="images/tithi-icon3.png"></li>
+                            <li class="sub-list-data">Tithi Chaitra Shukla Pratipada</li>
+                        </ul>
+                    </div>
+                    <div class="head-sub-list">
+                        <ul>
+                            <li class="icon"><img src="images/mesh-icon.png"></li>
+                            <li class="sub-list-data">Sun Sign: Mesha(Aries)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="menu-list">
+                    <div class="main-head">
+                         <ul>
+                            <li class="icon"><img src="images/fav-icon1.png"></li>
+                            <li class="sub-list-data" onclick="window.location.href='favorites.html'">Favourites</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="menu-list">
+                    <div class="main-head">
+                        <ul>
+                            <li class="icon"><img src="images/read-later-icon.png"></li>
+                            <li class="sub-list-data" onclick="window.location.href='readlater.html'">Read Later</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="menu-list">
+                    <div class="main-head">
+                        <ul>
+                            <li class="icon"><img src="images/todays-read-icon.png"></li>
+                            <li class="sub-list-data" onclick="window.location.href='todaysread.html'">Today's Read</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="menu-list">
+                    <div class="main-head">
+                       <ul>
+                            <li class="icon"><img src="images/prayer-icon.png"></li>
+                            <li class="sub-list-data" onclick="window.location.href='prayersforspecial.html'">Prayers for Special occasions</li>
+                        </ul> 
+                    </div>
+                </div>
+                 <div class="menu-list">
+                    <div class="main-head">
+                        <ul>
+                            <li class="icon"><img src="images/horoscope-icon.png"></li>
+                            <li class="sub-list-data" onclick="window.location.href='monthlyhoroscope.html'">Monthly Horoscope</li>
+                        </ul> 
+                    </div>
+                </div>
+                 <div class="menu-list">
+                    <div class="main-head">
+                       <ul>
+                            <li class="icon"><img src="images/marriage-dates.png"></li>
+                            <li class="sub-list-data" onclick="window.location.href='marriagedates.html'">Marriage Dates</li>
+                        </ul> 
+                    </div>
+                </div>
+                <div class="menu-list">
+                    <div class="main-head">
+                       <ul>
+                            <li class="icon"><img src="images/setting-icon.png"></li>
+                            <li class="sub-list-data" onclick="window.location.href='settings.html'">Settings</li>
+                        </ul> 
+                    </div>
+                </div>
+            </div>
+      <header>
+                <div class="inner-container-wrapper">
+                    <div class="menu-wrapper">
+
+                        <div id="trigger">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+
+                    </div>
+                    <div class="right-section">
+                        <div id="search-wrapper" class="right-bar">
+                            <div class="inner-wrap">
+                               <form id="demo-2">
+                                    <input type="search" placeholder="Search">
+                                </form>
+                            </div>
+                        </div>
+                        <div id="chat-wrapper" class="right-bar">
+                            <div class="inner-wrap">
+                                <a href="form.html"><img src="images/feedback-icon.png"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+      <div class="tab-content">
+      <div id="tab-calendar-view" class="tab-pane active">
+         <div id="yearlyCalendarScroll" class="scroller-wrapper clearfix row">
+            <div class=" col-xs-10">
+               <div class="scroller-mask" style="width: 600px;">
+                  <ul id="yearlyCalList" class="scroller-list" style="width: 3600px; left: 0px;">
+                     <li class="yearlyCalBox" data-month="January">
+                        <table class="tblCalEventWrapper">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="calendar-wrapper item-block">
+                                       <div class="calendar">
+                                          <div class="calendar-header">
+                                             <div class="tc">
+                                                <span class="tc strong t-large no-margin">January 2017</span><br>
+                                             </div>
+                                          </div>
+                                          <table class="table table-calendar" cellspacing="2" cellpadding="0" data-year="2017" data-month="1">
+                                             <thead>
+                                                <tr class="day">
+                                                   <th class="day" title="Sun">Sun</th>
+                                                   <th class="day" title="Mon">Mon</th>
+                                                   <th class="day" title="Tue">Tue</th>
+                                                   <th class="day" title="Wed">Wed</th>
+                                                   <th class="day" title="Thu">Thu</th>
+                                                   <th class="day" title="Fri">Fri</th>
+                                                   <th class="day" title="Sat">Sat</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr></tr>
+                                                <tr>
+                                                   <td class="days">1</td>
+                                                   <td class="days">2</td>
+                                                   <td class="days">3</td>
+                                                   <td class="days">4</td>
+                                                   <td class="days">5</td>
+                                                   <td class="days">6</td>
+                                                   <td class="days">7</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">8</td>
+                                                   <td class="days">9</td>
+                                                   <td class="days">10</td>
+                                                   <td class="days">11</td>
+                                                   <td class="days">12</td>
+                                                   <td class="days">13</td>
+                                                   <td class="days">14</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="january-15">15</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="january-16">16</td>
+                                                   <td class="days">17</td>
+                                                   <td class="days">18</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="january-19">19</td>
+                                                   <td class="days">20</td>
+                                                   <td class="days">21</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="january-22">22</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="january-23">23</td>
+                                                   <td class="days">24</td>
+                                                   <td class="days">25</td>
+                                                   <td class="days">26</td>
+                                                   <td class="days">27</td>
+                                                   <td class="days">28</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">29</td>
+                                                   <td class="days">30</td>
+                                                   <td class="days">31</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </li>
+                     <li class="yearlyCalBox" data-month="February">
+                        <table class="tblCalEventWrapper">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="calendar-wrapper item-block">
+                                       <div class="calendar">
+                                          <div class="calendar-header">
+                                             <div class="tc">
+                                                <span class="tc strong t-large no-margin">February 2017</span><br>
+                                             </div>
+                                          </div>
+                                          <table class="table table-calendar" cellspacing="2" cellpadding="0" data-year="2017" data-month="2">
+                                             <thead>
+                                                <tr class="day">
+                                                   <th class="day" title="Sun">Sun</th>
+                                                   <th class="day" title="Mon">Mon</th>
+                                                   <th class="day" title="Tue">Tue</th>
+                                                   <th class="day" title="Wed">Wed</th>
+                                                   <th class="day" title="Thu">Thu</th>
+                                                   <th class="day" title="Fri">Fri</th>
+                                                   <th class="day" title="Sat">Sat</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="february-1">1</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="february-2">2</td>
+                                                   <td class="days">3</td>
+                                                   <td class="days">4</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">5</td>
+                                                   <td class="days">6</td>
+                                                   <td class="days">7</td>
+                                                   <td class="days">8</td>
+                                                   <td class="days">9</td>
+                                                   <td class="days">10</td>
+                                                   <td class="days">11</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">12</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="february-13">13</td>
+                                                   <td class="days">14</td>
+                                                   <td class="days">15</td>
+                                                   <td class="days">16</td>
+                                                   <td class="days">17</td>
+                                                   <td class="days">18</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">19</td>
+                                                   <td class="days">20</td>
+                                                   <td class="days">21</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="february-22">22</td>
+                                                   <td class="days">23</td>
+                                                   <td class="days">24</td>
+                                                   <td class="days">25</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">26</td>
+                                                   <td class="days">27</td>
+                                                   <td class="days">28</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </li>
+                     <li class="yearlyCalBox" data-month="March">
+                        <table class="tblCalEventWrapper">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="calendar-wrapper item-block">
+                                       <div class="calendar">
+                                          <div class="calendar-header">
+                                             <div class="tc">
+                                                <span class="tc strong t-large no-margin">March 2017</span><br>
+                                             </div>
+                                          </div>
+                                          <table class="table table-calendar" cellspacing="2" cellpadding="0" data-year="2017" data-month="3">
+                                             <thead>
+                                                <tr class="day">
+                                                   <th class="day" title="Sun">Sun</th>
+                                                   <th class="day" title="Mon">Mon</th>
+                                                   <th class="day" title="Tue">Tue</th>
+                                                   <th class="day" title="Wed">Wed</th>
+                                                   <th class="day" title="Thu">Thu</th>
+                                                   <th class="day" title="Fri">Fri</th>
+                                                   <th class="day" title="Sat">Sat</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="march-1">1</td>
+                                                   <td class="days">2</td>
+                                                   <td class="days">3</td>
+                                                   <td class="days">4</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="march-5">5</td>
+                                                   <td class="days">6</td>
+                                                   <td class="days">7</td>
+                                                   <td class="days">8</td>
+                                                   <td class="days">9</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="march-10">10</td>
+                                                   <td class="days">11</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">12</td>
+                                                   <td class="days">13</td>
+                                                   <td class="days">14</td>
+                                                   <td class="days">15</td>
+                                                   <td class="days">16</td>
+                                                   <td class="days">17</td>
+                                                   <td class="days">18</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">19</td>
+                                                   <td class="days">20</td>
+                                                   <td class="days">21</td>
+                                                   <td class="days">22</td>
+                                                   <td class="days">23</td>
+                                                   <td class="days">24</td>
+                                                   <td class="days">25</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">26</td>
+                                                   <td class="days">27</td>
+                                                   <td class="days">28</td>
+                                                   <td class="days">29</td>
+                                                   <td class="days">30</td>
+                                                   <td class="days">31</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </li>
+                     <li class="yearlyCalBox" data-month="April">
+                        <table class="tblCalEventWrapper">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="calendar-wrapper item-block">
+                                       <div class="calendar">
+                                          <div class="calendar-header">
+                                             <div class="tc">
+                                                <span class="tc strong t-large no-margin">April 2017</span><br>
+                                             </div>
+                                          </div>
+                                          <table class="table table-calendar" cellspacing="2" cellpadding="0" data-year="2017" data-month="4">
+                                             <thead>
+                                                <tr class="day">
+                                                   <th class="day" title="Sun">Sun</th>
+                                                   <th class="day" title="Mon">Mon</th>
+                                                   <th class="day" title="Tue">Tue</th>
+                                                   <th class="day" title="Wed">Wed</th>
+                                                   <th class="day" title="Thu">Thu</th>
+                                                   <th class="day" title="Fri">Fri</th>
+                                                   <th class="day" title="Sat">Sat</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="days">1</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">2</td>
+                                                   <td class="days">3</td>
+                                                   <td class="days">4</td>
+                                                   <td class="days">5</td>
+                                                   <td class="days">6</td>
+                                                   <td class="days">7</td>
+                                                   <td class="days">8</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">9</td>
+                                                   <td class="days">10</td>
+                                                   <td class="days">11</td>
+                                                   <td class="days">12</td>
+                                                   <td class="days">13</td>
+                                                   <td class="days">14</td>
+                                                   <td class="days">15</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">16</td>
+                                                   <td class="days">17</td>
+                                                   <td class="days">18</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="april-19">19</td>
+                                                   <td class="days">20</td>
+                                                   <td class="days">21</td>
+                                                   <td class="days">22</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">23</td>
+                                                   <td class="days">24</td>
+                                                   <td class="days">25</td>
+                                                   <td class="days">26</td>
+                                                   <td class="days">27</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="april-28">28</td>
+                                                   <td class="days">29</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="april-30">30</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </li>
+                     <li class="yearlyCalBox" data-month="May">
+                        <table class="tblCalEventWrapper">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="calendar-wrapper item-block">
+                                       <div class="calendar">
+                                          <div class="calendar-header">
+                                             <div class="tc">
+                                                <span class="tc strong t-large no-margin">May 2017</span><br>
+                                             </div>
+                                          </div>
+                                          <table class="table table-calendar" cellspacing="2" cellpadding="0" data-year="2017" data-month="5">
+                                             <thead>
+                                                <tr class="day">
+                                                   <th class="day" title="Sun">Sun</th>
+                                                   <th class="day" title="Mon">Mon</th>
+                                                   <th class="day" title="Tue">Tue</th>
+                                                   <th class="day" title="Wed">Wed</th>
+                                                   <th class="day" title="Thu">Thu</th>
+                                                   <th class="day" title="Fri">Fri</th>
+                                                   <th class="day" title="Sat">Sat</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="days">1</td>
+                                                   <td class="days">2</td>
+                                                   <td class="days">3</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="may-4">4</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="may-5">5</td>
+                                                   <td class="days">6</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="may-7">7</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="may-8">8</td>
+                                                   <td class="days">9</td>
+                                                   <td class="days">10</td>
+                                                   <td class="days">11</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="may-12">12</td>
+                                                   <td class="days">13</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">14</td>
+                                                   <td class="days">15</td>
+                                                   <td class="days">16</td>
+                                                   <td class="days">17</td>
+                                                   <td class="days">18</td>
+                                                   <td class="days">19</td>
+                                                   <td class="days">20</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="may-21">21</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="may-22">22</td>
+                                                   <td class="days">23</td>
+                                                   <td class="days">24</td>
+                                                   <td class="days">25</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="may-26">26</td>
+                                                   <td class="days">27</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">28</td>
+                                                   <td class="days">29</td>
+                                                   <td class="days">30</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="may-31">31</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </li>
+                     <li class="yearlyCalBox" data-month="June">
+                        <table class="tblCalEventWrapper">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="calendar-wrapper item-block">
+                                       <div class="calendar">
+                                          <div class="calendar-header">
+                                             <div class="tc">
+                                                <span class="tc strong t-large no-margin">June 2017</span><br>
+                                             </div>
+                                          </div>
+                                          <table class="table table-calendar" cellspacing="2" cellpadding="0" data-year="2017" data-month="6">
+                                             <thead>
+                                                <tr class="day">
+                                                   <th class="day" title="Sun">Sun</th>
+                                                   <th class="day" title="Mon">Mon</th>
+                                                   <th class="day" title="Tue">Tue</th>
+                                                   <th class="day" title="Wed">Wed</th>
+                                                   <th class="day" title="Thu">Thu</th>
+                                                   <th class="day" title="Fri">Fri</th>
+                                                   <th class="day" title="Sat">Sat</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="june-1">1</td>
+                                                   <td class="days">2</td>
+                                                   <td class="days">3</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">4</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="june-5">5</td>
+                                                   <td class="days">6</td>
+                                                   <td class="days">7</td>
+                                                   <td class="days">8</td>
+                                                   <td class="days">9</td>
+                                                   <td class="days">10</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="june-11">11</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="june-12">12</td>
+                                                   <td class="days">13</td>
+                                                   <td class="days">14</td>
+                                                   <td class="days">15</td>
+                                                   <td class="days">16</td>
+                                                   <td class="days">17</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">18</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="june-19">19</td>
+                                                   <td class="days">20</td>
+                                                   <td class="days">21</td>
+                                                   <td class="days">22</td>
+                                                   <td class="days">23</td>
+                                                   <td class="days">24</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">25</td>
+                                                   <td class="days">26</td>
+                                                   <td class="days">27</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="june-28">28</td>
+                                                   <td class="days">29</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="june-30">30</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </li>
+                     <li class="yearlyCalBox" data-month="July">
+                        <table class="tblCalEventWrapper">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="calendar-wrapper item-block">
+                                       <div class="calendar">
+                                          <div class="calendar-header">
+                                             <div class="tc">
+                                                <span class="tc strong t-large no-margin">July 2017</span><br>
+                                             </div>
+                                          </div>
+                                          <table class="table table-calendar" cellspacing="2" cellpadding="0" data-year="2017" data-month="7">
+                                             <thead>
+                                                <tr class="day">
+                                                   <th class="day" title="Sun">Sun</th>
+                                                   <th class="day" title="Mon">Mon</th>
+                                                   <th class="day" title="Tue">Tue</th>
+                                                   <th class="day" title="Wed">Wed</th>
+                                                   <th class="day" title="Thu">Thu</th>
+                                                   <th class="day" title="Fri">Fri</th>
+                                                   <th class="day" title="Sat">Sat</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="days">1</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">2</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="july-3">3</td>
+                                                   <td class="days">4</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="july-5">5</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="july-6">6</td>
+                                                   <td class="days">7</td>
+                                                   <td class="days">8</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">9</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="july-10">10</td>
+                                                   <td class="days">11</td>
+                                                   <td class="days">12</td>
+                                                   <td class="days">13</td>
+                                                   <td class="days">14</td>
+                                                   <td class="days">15</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="july-16">16</td>
+                                                   <td class="days">17</td>
+                                                   <td class="days">18</td>
+                                                   <td class="days">19</td>
+                                                   <td class="days">20</td>
+                                                   <td class="days">21</td>
+                                                   <td class="days">22</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">23</td>
+                                                   <td class="days">24</td>
+                                                   <td class="days">25</td>
+                                                   <td class="days">26</td>
+                                                   <td class="days">27</td>
+                                                   <td class="days">28</td>
+                                                   <td class="days">29</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">30</td>
+                                                   <td class="days">31</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </li>
+                     <li class="yearlyCalBox" data-month="August">
+                        <table class="tblCalEventWrapper">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="calendar-wrapper item-block">
+                                       <div class="calendar">
+                                          <div class="calendar-header">
+                                             <div class="tc">
+                                                <span class="tc strong t-large no-margin">August 2017</span><br>
+                                             </div>
+                                          </div>
+                                          <table class="table table-calendar" cellspacing="2" cellpadding="0" data-year="2017" data-month="8">
+                                             <thead>
+                                                <tr class="day">
+                                                   <th class="day" title="Sun">Sun</th>
+                                                   <th class="day" title="Mon">Mon</th>
+                                                   <th class="day" title="Tue">Tue</th>
+                                                   <th class="day" title="Wed">Wed</th>
+                                                   <th class="day" title="Thu">Thu</th>
+                                                   <th class="day" title="Fri">Fri</th>
+                                                   <th class="day" title="Sat">Sat</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="days">1</td>
+                                                   <td class="days">2</td>
+                                                   <td class="days">3</td>
+                                                   <td class="days">4</td>
+                                                   <td class="days">5</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">6</td>
+                                                   <td class="days">7</td>
+                                                   <td class="days">8</td>
+                                                   <td class="days">9</td>
+                                                   <td class="days">10</td>
+                                                   <td class="days">11</td>
+                                                   <td class="days">12</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">13</td>
+                                                   <td class="days">14</td>
+                                                   <td class="days">15</td>
+                                                   <td class="days">16</td>
+                                                   <td class="days">17</td>
+                                                   <td class="days">18</td>
+                                                   <td class="days">19</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">20</td>
+                                                   <td class="days">21</td>
+                                                   <td class="days">22</td>
+                                                   <td class="days">23</td>
+                                                   <td class="days">24</td>
+                                                   <td class="days">25</td>
+                                                   <td class="days">26</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">27</td>
+                                                   <td class="days">28</td>
+                                                   <td class="days">29</td>
+                                                   <td class="days">30</td>
+                                                   <td class="days">31</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <span class="text-muted t-small">No Muhurt</span>
+                     </li>
+                     <li class="yearlyCalBox" data-month="September">
+                        <table class="tblCalEventWrapper">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="calendar-wrapper item-block">
+                                       <div class="calendar">
+                                          <div class="calendar-header">
+                                             <div class="tc">
+                                                <span class="tc strong t-large no-margin">September 2017</span><br>
+                                             </div>
+                                          </div>
+                                          <table class="table table-calendar" cellspacing="2" cellpadding="0" data-year="2017" data-month="9">
+                                             <thead>
+                                                <tr class="day">
+                                                   <th class="day" title="Sun">Sun</th>
+                                                   <th class="day" title="Mon">Mon</th>
+                                                   <th class="day" title="Tue">Tue</th>
+                                                   <th class="day" title="Wed">Wed</th>
+                                                   <th class="day" title="Thu">Thu</th>
+                                                   <th class="day" title="Fri">Fri</th>
+                                                   <th class="day" title="Sat">Sat</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="days">1</td>
+                                                   <td class="days">2</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">3</td>
+                                                   <td class="days">4</td>
+                                                   <td class="days">5</td>
+                                                   <td class="days">6</td>
+                                                   <td class="days">7</td>
+                                                   <td class="days">8</td>
+                                                   <td class="days">9</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">10</td>
+                                                   <td class="days">11</td>
+                                                   <td class="days">12</td>
+                                                   <td class="days">13</td>
+                                                   <td class="days">14</td>
+                                                   <td class="days">15</td>
+                                                   <td class="days">16</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">17</td>
+                                                   <td class="days">18</td>
+                                                   <td class="days">19</td>
+                                                   <td class="days">20</td>
+                                                   <td class="days">21</td>
+                                                   <td class="days">22</td>
+                                                   <td class="days">23</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">24</td>
+                                                   <td class="days">25</td>
+                                                   <td class="days">26</td>
+                                                   <td class="days">27</td>
+                                                   <td class="days">28</td>
+                                                   <td class="days">29</td>
+                                                   <td class="days">30</td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <span class="text-muted t-small">No Muhurt</span>
+                     </li>
+                     <li class="yearlyCalBox" data-month="October">
+                        <table class="tblCalEventWrapper">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="calendar-wrapper item-block">
+                                       <div class="calendar">
+                                          <div class="calendar-header">
+                                             <div class="tc">
+                                                <span class="tc strong t-large no-margin">October 2017</span><br>
+                                             </div>
+                                          </div>
+                                          <table class="table table-calendar" cellspacing="2" cellpadding="0" data-year="2017" data-month="10">
+                                             <thead>
+                                                <tr class="day">
+                                                   <th class="day" title="Sun">Sun</th>
+                                                   <th class="day" title="Mon">Mon</th>
+                                                   <th class="day" title="Tue">Tue</th>
+                                                   <th class="day" title="Wed">Wed</th>
+                                                   <th class="day" title="Thu">Thu</th>
+                                                   <th class="day" title="Fri">Fri</th>
+                                                   <th class="day" title="Sat">Sat</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr></tr>
+                                                <tr>
+                                                   <td class="days">1</td>
+                                                   <td class="days">2</td>
+                                                   <td class="days">3</td>
+                                                   <td class="days">4</td>
+                                                   <td class="days">5</td>
+                                                   <td class="days">6</td>
+                                                   <td class="days">7</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">8</td>
+                                                   <td class="days">9</td>
+                                                   <td class="days">10</td>
+                                                   <td class="days">11</td>
+                                                   <td class="days">12</td>
+                                                   <td class="days">13</td>
+                                                   <td class="days">14</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">15</td>
+                                                   <td class="days">16</td>
+                                                   <td class="days">17</td>
+                                                   <td class="days">18</td>
+                                                   <td class="days">19</td>
+                                                   <td class="days">20</td>
+                                                   <td class="days">21</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">22</td>
+                                                   <td class="days">23</td>
+                                                   <td class="days">24</td>
+                                                   <td class="days">25</td>
+                                                   <td class="days">26</td>
+                                                   <td class="days">27</td>
+                                                   <td class="days">28</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">29</td>
+                                                   <td class="days">30</td>
+                                                   <td class="days">31</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <span class="text-muted t-small">No Muhurt</span>
+                     </li>
+                     <li class="yearlyCalBox" data-month="November">
+                        <table class="tblCalEventWrapper">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="calendar-wrapper item-block">
+                                       <div class="calendar">
+                                          <div class="calendar-header">
+                                             <div class="tc">
+                                                <span class="tc strong t-large no-margin">November 2017</span><br>
+                                             </div>
+                                          </div>
+                                          <table class="table table-calendar" cellspacing="2" cellpadding="0" data-year="2017" data-month="11">
+                                             <thead>
+                                                <tr class="day">
+                                                   <th class="day" title="Sun">Sun</th>
+                                                   <th class="day" title="Mon">Mon</th>
+                                                   <th class="day" title="Tue">Tue</th>
+                                                   <th class="day" title="Wed">Wed</th>
+                                                   <th class="day" title="Thu">Thu</th>
+                                                   <th class="day" title="Fri">Fri</th>
+                                                   <th class="day" title="Sat">Sat</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="days">1</td>
+                                                   <td class="days">2</td>
+                                                   <td class="days">3</td>
+                                                   <td class="days">4</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">5</td>
+                                                   <td class="days">6</td>
+                                                   <td class="days">7</td>
+                                                   <td class="days">8</td>
+                                                   <td class="days">9</td>
+                                                   <td class="days">10</td>
+                                                   <td class="days">11</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">12</td>
+                                                   <td class="days">13</td>
+                                                   <td class="days">14</td>
+                                                   <td class="days">15</td>
+                                                   <td class="days">16</td>
+                                                   <td class="days">17</td>
+                                                   <td class="days">18</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="november-19">19</td>
+                                                   <td class="days">20</td>
+                                                   <td class="days">21</td>
+                                                   <td class="days">22</td>
+                                                   <td class="days">23</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="november-24">24</td>
+                                                   <td class="days">25</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">26</td>
+                                                   <td class="days">27</td>
+                                                   <td class="days">28</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="november-29">29</td>
+                                                   <td class="days">30</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </li>
+                     <li class="yearlyCalBox" data-month="December">
+                        <table class="tblCalEventWrapper">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="calendar-wrapper item-block">
+                                       <div class="calendar">
+                                          <div class="calendar-header">
+                                             <div class="tc">
+                                                <span class="tc strong t-large no-margin">December 2017</span><br>
+                                             </div>
+                                          </div>
+                                          <table class="table table-calendar" cellspacing="2" cellpadding="0" data-year="2017" data-month="12">
+                                             <thead>
+                                                <tr class="day">
+                                                   <th class="day" title="Sun">Sun</th>
+                                                   <th class="day" title="Mon">Mon</th>
+                                                   <th class="day" title="Tue">Tue</th>
+                                                   <th class="day" title="Wed">Wed</th>
+                                                   <th class="day" title="Thu">Thu</th>
+                                                   <th class="day" title="Fri">Fri</th>
+                                                   <th class="day" title="Sat">Sat</th>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="days">1</td>
+                                                   <td class="days">2</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">3</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="december-4">4</td>
+                                                   <td class="days">5</td>
+                                                   <td class="days">6</td>
+                                                   <td class="days">7</td>
+                                                   <td class="days">8</td>
+                                                   <td class="days">9</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">10</td>
+                                                   <td class="days">11</td>
+                                                   <td class="days">12</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="december-13">13</td>
+                                                   <td class="days date-highlight-green holiday-date-details" data-id="december-14">14</td>
+                                                   <td class="days">15</td>
+                                                   <td class="days">16</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">17</td>
+                                                   <td class="days">18</td>
+                                                   <td class="days">19</td>
+                                                   <td class="days">20</td>
+                                                   <td class="days">21</td>
+                                                   <td class="days">22</td>
+                                                   <td class="days">23</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">24</td>
+                                                   <td class="days">25</td>
+                                                   <td class="days">26</td>
+                                                   <td class="days">27</td>
+                                                   <td class="days">28</td>
+                                                   <td class="days">29</td>
+                                                   <td class="days">30</td>
+                                                </tr>
+                                                <tr>
+                                                   <td class="days">31</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                   <td class="dis">&nbsp;</td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+			<a onclick="GoBack()" class="scroller-nav scroller-nav-prev col-xs-1 scroller-disabled"><span>«</span></a>
+            <a onclick="GoNext()" class="scroller-nav scroller-nav-next col-xs-1"><span>»</span></a>
+         </div>
+         <div>
+            <p class="info alert alert-warning pad text-center">Rahu, Gulika and Yamaghanda timing should be avoided even on auspicious days as these timings are considered inauspicious.</p>
+         </div>
+      </div>
+   </body>
+</html>
