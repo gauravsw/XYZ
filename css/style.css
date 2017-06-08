@@ -251,3 +251,5 @@ ul#tab li h2{font-weight:400;margin-bottom:30px;padding-bottom:5px;border-bottom
 .language-wrapper{margin:20px 0;border-bottom:2px solid #3089ba;padding:10px 0;background:#fff}
 
 /***********************************************MOST-POPULAR-PAGE-END***********************************************/
+
+li.sub-list-data>a{color:#fff}
